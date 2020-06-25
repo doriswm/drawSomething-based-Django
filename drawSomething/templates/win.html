@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Draw Something</title>
+        {% load static %}
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{% static 'style.css' %}" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script>
+            $(function () {
+                $('[data-toggle="popover"]').popover()
+            })
+        </script>
+    </head>
+
+<body style="background-image:url('../static/img/bg2.jpg')">
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-md navbar-light bg-light" >
+    <div class="container-fluid">
+        <a class="navbar-brand"><img src="{% static 'img/logo.png' %}"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResonsive">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+
+<!-- globalpage -->
+<div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 mt-5 shadow p-3 bg-white rounded text-center">
+            <br>
+            <p class="p5">The winner is <strong> {{winner}} </strong>! The word is <strong>{{word}}.</strong></p>
+            <form class="mt-2" method="POST" >
+                <button class="mr-2" type="submit" id="id_end_game" name="end_game" value={{room.id}}>End</button>
+                <button class="ml-2" type="submit" id="id_restart_game" name="restart_game" value={{room.id}}>Restart</button>
+                {% csrf_token %}
+            </form>
+        </div>
+        <div class="col-md-4"></div>
+</div>
+
+</body>
+</html>

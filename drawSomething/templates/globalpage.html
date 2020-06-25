@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% block globalpage %}
+    <div class="row">
+
+        <!-- roomsarea -->
+        <div class="col-md-9">
+            <div div class="overflow-auto" style="height:40rem">
+
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-8">
+                            <form class="form-inline active-cyan-4" method="POST">
+                                    <input class="form-control form-control-sm w-75" type="text" placeholder="Search room"
+                                      aria-label="Search" name="searchroombar">
+                                    <button type="submit" class="btn btn-default" aria-label="Left Align">
+                                            <i class="fas fa-search" aria-hidden="true"></i> 
+                                    </button>
+                            {% csrf_token %}
+                            </form>
+                    </div>
+                    <div class="col-md-1">
+                        <a href="{% url 'roomcreationpage' %}" class="btn btn-outline-secondary btn-circle mt-1" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="create a new room">+</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-8 text-danger">
+                        {{errormessage}}
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                </div>
+
+                {% if notgoundroom %}
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <div class="mb-2 text-center text-danger">
+                                    No match user found
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+                {% endif %}
+
+                <div class="row">
+                    {% if searchroom %}
+                    <div class="col-md-4 border border-primary shadow p-4 mb-2 bg-white">
+                            <div class="roomcard mx-auto" style="width: 18rem;height:25rem">
+                                    <img class="card-img-top h-50" src="{% static searchroom.backgroundphoto %}" alt="Card image cap">
+                                    <div class="card-body">
+                                      <h5 class="card-title">{{searchroom.id}}: {{searchroom.Roomname}}</h5>
+                                      <p class="card-text" >{{searchroom.Roomdescription}}</p>
+                                      <a href="{% url 'room' searchroom.id %}" class="btn btn-primary">Enter</a>
+                                    </div>
+                            </div>
+                    </div>
+                    {% endif %}
+
+                    {% for singleroom in roomlist%}
+                    <div class="col-md-4">
+                            <div class="roomcard mx-auto" style="width: 18rem;height:25rem">
+                                <img class="card-img-top h-50" src="{% static singleroom.backgroundphoto %}" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{singleroom.id}}: {{singleroom.Roomname}}</h5>
+                                    <p class="card-text" >{{singleroom.Roomdescription}}</p>
+                                    <div>
+                                        <form method="POST" >                                    
+                                            <td><button class="btn btn-primary" type="submit" id="id_enter_{{room_id}}" name="enter_room" value="{{singleroom.id}}">Enter</button></td>
+                                            {% csrf_token %}
+                                        </form>
+                                    </div>
+                                </div>
+                                   
+                            </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- userinfoarea -->
+        <div class="col-md-3">
+            <div class="overflow-auto" style="height:40rem">
+
+                <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-11">
+                                <form class="form-inline active-cyan-4" method="POST">
+                                    <input class="form-control form-control-sm w-75" type="text" placeholder="Search other User"
+                                        aria-label="Search" name="searchusersbar">
+                                    <button type="submit" class="btn btn-default" aria-label="Left Align">
+                                        <i class="fas fa-search" aria-hidden="true"></i> 
+                                    </button> 
+                                    {% csrf_token %}     
+                                </form>
+                            </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-11">
+                        <ul class="list-group">
+
+                            {% if searchuser %}
+                                <li class="list-group-item border border-primary shadow p-4 mb-2 bg-white">                    
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <img class="w-100 h-100 shadow-lg" src="{% url 'photo' searchuser.id %}" class="round" alt="profilephoto">
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div>
+                                                    {{searchuser.Username}}
+                                                </div>
+                                                <div class="text-secondary">
+                                                    {{searchuser.Email}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" >
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-9" id="userinfocardhidden">
+                                                <div class="mt-2">
+                                                    {{searchuser.Description}}
+                                                </div>
+                                                <form method="POST">
+                                                        <button method="submit" class="mt-1 btn btn-primary btn-sm" name="add_friend" value="{{searchuser.id}}">add friend</button>
+                                                        {% csrf_token %}
+                                                </form>
+                                            </div>
+                                        </div>
+                                </li>
+                            {% elif notfound %}
+                                <div class="mb-2 text-center text-danger">
+                                    No match user found
+                                </div>
+                            {% endif %} 
+
+                            {% for singleuser in allusers %}
+                                <li class="list-group-item">                    
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <img class="w-100 h-100 shadow-lg" src="{% url 'photo' singleuser.id %}" class="round" alt="profilephoto">
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div>
+                                                {{singleuser.Username}}
+                                            </div>
+                                            <div>
+                                                {{singleuser.Email}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" >
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-9" id="userinfocardhidden">
+                                            <div class="mt-2">
+                                                {{singleuser.Description}}
+                                            </div>
+                                            <form method="POST">
+                                                <button method="submit" class="mt-1 btn btn-primary btn-sm" name="add_friend" value="{{singleuser.id}}">add friend</button>
+                                                {% csrf_token %}
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+ 
+                        </ul>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block currentuser %}
+<li class="nav-item active">
+    <a class="nav-link" href="#">{{currentusername}}</a>
+    
+</li>
+<li class="nav-item active">
+    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+</li>
+{% endblock%}

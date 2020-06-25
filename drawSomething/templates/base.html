@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Draw Something</title>
+        {% load static %}
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{% static 'style.css' %}" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script>
+            $(function () {
+                $('[data-toggle="popover"]').popover()
+            })
+        </script>
+    </head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+<div class="container-fluid">
+    <a class="navbar-brand"><img src="{% static 'img/logo.png' %}"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResonsive">
+        <span class="navbar-toggler-icon"></span>
+
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResonsive">
+        <ul class="navbar-nav ml-auto">
+            {% block login_header %}
+            {% endblock %}
+            {% block register_header %}
+            {% endblock %}
+            {% block currentuser %}
+            {% endblock %}          
+        </ul>
+
+    </div>
+</div>
+</nav>
+<div>
+    
+</div>
+<!-- globalpage -->
+<div class="contain">
+    {% block globalpage %}
+    {% endblock %}
+    {% block roomcreationpage %}
+    {% endblock %}
+
+</div>
+
+{% block register %}
+{% endblock %}
+
+{% block login %}
+{% endblock %}
+
+{% block room %}
+{% endblock %}
+
+{% block win %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% block room %}
+<script src="{% static 'updateRoom.js' %}"></script>
+<div class="row" id="id_room_{{room.id}}">
+
+<div class="col-md-9" id="canvas_plus_player">
+    <div class="row">
+        <canvas id="canvas"></canvas>
+    </div>
+    <div class="row ml-3">
+        <div id="hints"></div>
+    </div>
+    <div class="row container-fluid"  id="room_players">
+        {% for player in players %}
+        <div class="col-md-2 player">
+            {{player.username}}
+            <img class="w-50 h-50 shadow-lg" src="{% url 'photo' player.id %}" class="round" alt="profilephoto">
+
+        </div>
+        {% endfor %}
+        <br><br>
+    </div>
+        
+</div> 
+
+
+<div class="col-md-3 mt-4" id="description_plus_chat">
+    <div class="col-md-1"></div>
+    
+    <div class="col-md-11 ml-2" style="border:1px inset;background-color: lightgrey ">
+            <div class="row" style="height:25px;background-color:black;color:white;padding-left:5px">Chat</div>
+            <div class="row" id="room_description">
+                    <div class="row"> 
+                        <div class="col-md-1"></div>
+                        <div class="col-md-11 ml-3">
+                            <p class="mb-0">RoomName:   {{room.Roomname}}</p> 
+                            <p class="mb-0">Description: {{room.Roomdescription}}</p>
+                            
+                        </div>
+                    </div>
+            </div>
+
+            <div class="chat-message">
+                <div class="overflow-auto" style="max-height:30rem">
+                    <ul class="list-unstyled chat" id= "post-list">
+                    </ul>
+                </div>
+                <br>
+                <div class="ml-1" id ="send_post">
+                        <table>
+                            <tr>
+                                <td>
+                                    <input id = id_post_input_text name = "post_input" type="text" placeholder="Give a try"/>
+                                    <input id = user_name name = "user_name" type ="hidden" value="{{currentusername}}"/>
+                                </td>
+                                <td>
+                                    <button id = id_post_button name = "new_post" class = "button" onclick = "addPost()">Send</button>
+                                </td>
+                            </tr>
+                        </table>
+                    {% csrf_token %}
+                </div>
+                <br>
+            <div>
+    
+    </div>
+ 
+</div>
+
+<script src="{% static 'canvas.js' %}"></script>
+
+
+
+
+
+{% endblock %}
+
+{% block currentuser %}
+<li class="nav-item active">
+    <a class="nav-link" href="#" id="id_current_username">{{currentusername}}</a>
+    
+</li>
+<li class="nav-item active">
+    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+</li>
+<li class="nav-item active">
+    <form method="POST" >
+        <button type="submit" class="btn btn-default mt-1" aria-label="Left Align" id="id_quit_room" name="quit_room" value={{room.id}}>
+                <i class="far fa-arrow-alt-circle-right fa-lg" aria-hidden="true"></i> 
+        </button>
+        {% csrf_token %}
+    </form>
+
+</li>
+{% endblock%}
+
